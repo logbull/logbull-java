@@ -109,19 +109,13 @@ jobs:
 
           echo "$SIGNING_KEY" | base64 -d > signing-key.gpg
 
-          # List all tasks to see what's available
-          echo "=== Available tasks ===" 
-          ./gradlew tasks --all | grep -i "maven\|publish\|central" || echo "No Maven Central tasks found"
-
-          echo ""
-          echo "=== Attempting to publish ==="
-          ./gradlew publishMavenPublicationToMavenCentral \
+          echo "=== Publishing to Maven Central Portal ==="
+          ./gradlew publishAllPublicationsToCentralPortal \
             -Psigning.keyId="$SIGNING_KEY_ID" \
             -Psigning.password="$SIGNING_PASSWORD" \
             -Psigning.secretKeyRingFile="$(pwd)/signing-key.gpg" \
             -PmavenCentralUsername="$MAVEN_CENTRAL_USERNAME" \
-            -PmavenCentralPassword="$MAVEN_CENTRAL_PASSWORD" \
-            --info
+            -PmavenCentralPassword="$MAVEN_CENTRAL_PASSWORD"
           rm signing-key.gpg
 
       - name: Create and push tag
