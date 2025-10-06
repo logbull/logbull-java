@@ -93,8 +93,8 @@ class LogBullAutoConfigurationTest {
                                 .run(context -> {
                                         assertThat(context).hasFailed();
                                         assertThat(context.getStartupFailure())
-                                                        .hasMessageContaining("Could not bind properties")
-                                                        .hasMessageContaining("logbull");
+                                                        .rootCause()
+                                                        .hasMessageContaining("LogBull project-id is required");
                                 });
         }
 
@@ -107,8 +107,8 @@ class LogBullAutoConfigurationTest {
                                 .run(context -> {
                                         assertThat(context).hasFailed();
                                         assertThat(context.getStartupFailure())
-                                                        .hasMessageContaining("Could not bind properties")
-                                                        .hasMessageContaining("logbull");
+                                                        .rootCause()
+                                                        .hasMessageContaining("LogBull host is required");
                                 });
         }
 
@@ -119,8 +119,8 @@ class LogBullAutoConfigurationTest {
                                 .run(context -> {
                                         assertThat(context).hasFailed();
                                         assertThat(context.getStartupFailure())
-                                                        .hasMessageContaining("Could not bind properties")
-                                                        .hasMessageContaining("logbull");
+                                                        .rootCause()
+                                                        .hasMessageContaining("LogBull project-id is required");
                                 });
         }
 
@@ -134,8 +134,8 @@ class LogBullAutoConfigurationTest {
                                 .run(context -> {
                                         assertThat(context).hasFailed();
                                         assertThat(context.getStartupFailure())
-                                                        .hasMessageContaining("Could not bind properties")
-                                                        .hasMessageContaining("logbull");
+                                                        .rootCause()
+                                                        .hasMessageContaining("LogBull project-id is required");
                                 });
         }
 
@@ -149,8 +149,8 @@ class LogBullAutoConfigurationTest {
                                 .run(context -> {
                                         assertThat(context).hasFailed();
                                         assertThat(context.getStartupFailure())
-                                                        .hasMessageContaining("Could not bind properties")
-                                                        .hasMessageContaining("logbull");
+                                                        .rootCause()
+                                                        .hasMessageContaining("LogBull host is required");
                                 });
         }
 
@@ -164,8 +164,8 @@ class LogBullAutoConfigurationTest {
                                 .run(context -> {
                                         assertThat(context).hasFailed();
                                         assertThat(context.getStartupFailure())
-                                                        .hasMessageContaining("Could not bind properties")
-                                                        .hasMessageContaining("logbull");
+                                                        .rootCause()
+                                                        .hasMessageContaining("LogBull project-id is required");
                                 });
         }
 

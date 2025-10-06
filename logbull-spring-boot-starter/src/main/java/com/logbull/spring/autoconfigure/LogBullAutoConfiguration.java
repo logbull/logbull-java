@@ -11,7 +11,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.util.StringUtils;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 
 /**
@@ -23,14 +25,33 @@ import jakarta.annotation.PreDestroy;
 @EnableConfigurationProperties(LogBullProperties.class)
 public class LogBullAutoConfiguration {
 
+    private final LogBullProperties properties;
     private LogBullLogbackAppender appender;
+
+    public LogBullAutoConfiguration(LogBullProperties properties) {
+        this.properties = properties;
+    }
+
+    @PostConstruct
+    public void validateProperties() {
+        if (!StringUtils.hasText(properties.getProjectId())) {
+            throw new IllegalStateException(
+                    "LogBull project-id is required. Please set 'logbull.project-id' in your application properties " +
+                            "or disable LogBull by setting 'logbull.enabled=false'");
+        }
+        if (!StringUtils.hasText(properties.getHost())) {
+            throw new IllegalStateException(
+                    "LogBull host is required. Please set 'logbull.host' in your application properties " +
+                            "or disable LogBull by setting 'logbull.enabled=false'");
+        }
+    }
 
     /**
      * Creates a LogBull configuration bean from Spring Boot properties.
      */
     @Bean
     @ConditionalOnMissingBean
-    public Config logBullConfig(LogBullProperties properties) {
+    public Config logBullConfig() {
         return Config.builder()
                 .projectId(properties.getProjectId())
                 .host(properties.getHost())
@@ -55,7 +76,7 @@ public class LogBullAutoConfiguration {
     @Bean
     @ConditionalOnClass(name = "ch.qos.logback.classic.Logger")
     @ConditionalOnProperty(prefix = "logbull", name = "use-standalone-logger", havingValue = "false", matchIfMissing = true)
-    public LogBullLogbackAppender logBullLogbackAppender(LogBullProperties properties) {
+    public LogBullLogbackAppender logBullLogbackAppender() {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
 
         appender = new LogBullLogbackAppender();
