@@ -47,13 +47,11 @@ subprojects {
         }
     }
 
-    signing {
-        // Only require signing when publishing and when signing properties are available
-        required { gradle.taskGraph.hasTask("publish") && project.hasProperty("signing.keyId") }
-        
-        // Sign the publications after they are evaluated
-        afterEvaluate {
-            sign publishing.publications
+    afterEvaluate {
+        if (project.hasProperty("signing.keyId")) {
+            signing {
+                sign publishing.publications
+            }
         }
     }
 }
