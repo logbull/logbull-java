@@ -40,7 +40,7 @@ subprojects {
             publish("mavenJava") {
                 username = project.findProperty("mavenCentralUsername") ?: System.getenv("MAVEN_CENTRAL_USERNAME")
                 password = project.findProperty("mavenCentralPassword") ?: System.getenv("MAVEN_CENTRAL_PASSWORD")
-                publicationType = "USER_MANAGED"
+                publicationType = "AUTOMATIC"
             }
         }
         
