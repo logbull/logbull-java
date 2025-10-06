@@ -105,6 +105,19 @@ jobs:
           if [ -z "$OSSRH_USERNAME" ]; then echo "ERROR: OSSRH_USERNAME is empty"; exit 1; fi
           if [ -z "$OSSRH_PASSWORD" ]; then echo "ERROR: OSSRH_PASSWORD is empty"; exit 1; fi
           echo "Username: ${OSSRH_USERNAME:0:3}***"
+          echo "Password length: ${#OSSRH_PASSWORD}"
+
+          # Test credentials before publishing
+          echo "Testing OSSRH credentials..."
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -u "$OSSRH_USERNAME:$OSSRH_PASSWORD" \
+            "https://s01.oss.sonatype.org/service/local/authentication/login")
+          echo "Auth test HTTP code: $HTTP_CODE"
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "ERROR: OSSRH credentials are invalid (HTTP $HTTP_CODE)"
+            echo "Please verify your user token is correct and not expired"
+            exit 1
+          fi
+          echo "✓ Credentials verified successfully"
 
           echo "$SIGNING_KEY" | base64 -d > signing-key.gpg
           ./gradlew publish \
@@ -112,8 +125,7 @@ jobs:
             -Psigning.password="$SIGNING_PASSWORD" \
             -Psigning.secretKeyRingFile="$(pwd)/signing-key.gpg" \
             -PossrhUsername="$OSSRH_USERNAME" \
-            -PossrhPassword="$OSSRH_PASSWORD" \
-            --stacktrace
+            -PossrhPassword="$OSSRH_PASSWORD"
           rm signing-key.gpg
 
       - name: Create and push tag
