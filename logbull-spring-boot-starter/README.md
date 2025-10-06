@@ -14,14 +14,14 @@ For complete documentation, usage examples, and API reference, please see the [m
 <dependency>
     <groupId>com.logbull</groupId>
     <artifactId>logbull-spring-boot-starter</artifactId>
-    <version>1.0.0</version>
+    <version>RELEASE</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-implementation 'com.logbull:logbull-spring-boot-starter:1.0.0'
+implementation 'com.logbull:logbull-spring-boot-starter:+'
 ```
 
 ## Configuration
