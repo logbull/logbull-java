@@ -97,13 +97,16 @@ jobs:
         env:
           ORG_GRADLE_PROJECT_ossrhUsername: ${{ secrets.OSSRH_USERNAME }}
           ORG_GRADLE_PROJECT_ossrhPassword: ${{ secrets.OSSRH_PASSWORD }}
-          ORG_GRADLE_PROJECT_signing.keyId: ${{ secrets.SIGNING_KEY_ID }}
-          ORG_GRADLE_PROJECT_signing.password: ${{ secrets.SIGNING_PASSWORD }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: |
           echo "$SIGNING_KEY" | base64 -d > signing-key.gpg
-          export ORG_GRADLE_PROJECT_signing.secretKeyRingFile=$(pwd)/signing-key.gpg
-          ./gradlew publish --info
+          ./gradlew publish \
+            -Psigning.keyId="$SIGNING_KEY_ID" \
+            -Psigning.password="$SIGNING_PASSWORD" \
+            -Psigning.secretKeyRingFile="$(pwd)/signing-key.gpg" \
+            --info
           rm signing-key.gpg
 
       - name: Create and push tag
