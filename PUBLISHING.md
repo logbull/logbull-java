@@ -24,7 +24,7 @@ This project uses semantic versioning with automatic version bumping based on co
 - **FIX**: Commits starting with `FIX` trigger a **patch** version bump (e.g., 1.0.0 → 1.0.1)
 - **Other**: Other commits (REFACTOR, etc.) don't trigger automatic releases
 
-### Example Commit Messages
+### Example Commit messages
 
 ```bash
 git commit -m "FEATURE Add Spring Boot starter auto-configuration"
