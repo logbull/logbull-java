@@ -108,7 +108,7 @@ jobs:
           echo "Password length: ${#MAVEN_CENTRAL_PASSWORD}"
 
           echo "$SIGNING_KEY" | base64 -d > signing-key.gpg
-          ./gradlew publishAllPublicationsToMavenCentral \
+          ./gradlew publishToMavenCentral \
             -Psigning.keyId="$SIGNING_KEY_ID" \
             -Psigning.password="$SIGNING_PASSWORD" \
             -Psigning.secretKeyRingFile="$(pwd)/signing-key.gpg" \
