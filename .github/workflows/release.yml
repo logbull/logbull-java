@@ -105,7 +105,7 @@ jobs:
           ./gradlew publish \
             -Psigning.keyId=$SIGNING_KEY_ID \
             -Psigning.password=$SIGNING_PASSWORD \
-            -Psigning.secretKeyRingFile=signing-key.gpg
+            -Psigning.secretKeyRingFile=$(pwd)/signing-key.gpg
           rm signing-key.gpg
 
       - name: Create and push tag
