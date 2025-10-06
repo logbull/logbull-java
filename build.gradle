@@ -34,16 +34,16 @@ subprojects {
         useJUnitPlatform()
     }
 
-    // Configure Maven Central Publishing
-    nmcp {
-        publish("maven") {
-            username = project.findProperty("mavenCentralUsername") ?: System.getenv("MAVEN_CENTRAL_USERNAME")
-            password = project.findProperty("mavenCentralPassword") ?: System.getenv("MAVEN_CENTRAL_PASSWORD")
-            publicationType = "USER_MANAGED"
-        }
-    }
-
     afterEvaluate {
+        // Configure Maven Central Publishing after publications are created
+        nmcp {
+            publish("mavenJava") {
+                username = project.findProperty("mavenCentralUsername") ?: System.getenv("MAVEN_CENTRAL_USERNAME")
+                password = project.findProperty("mavenCentralPassword") ?: System.getenv("MAVEN_CENTRAL_PASSWORD")
+                publicationType = "USER_MANAGED"
+            }
+        }
+        
         if (project.hasProperty("signing.keyId")) {
             signing {
                 sign publishing.publications
