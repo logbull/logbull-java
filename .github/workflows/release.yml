@@ -95,18 +95,24 @@ jobs:
       - name: Publish to Maven Central
         if: steps.version.outputs.bump != 'none'
         env:
-          ORG_GRADLE_PROJECT_ossrhUsername: ${{ secrets.OSSRH_USERNAME }}
-          ORG_GRADLE_PROJECT_ossrhPassword: ${{ secrets.OSSRH_PASSWORD }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         run: |
+          echo "Verifying credentials are set..."
+          if [ -z "$OSSRH_USERNAME" ]; then echo "ERROR: OSSRH_USERNAME is empty"; exit 1; fi
+          if [ -z "$OSSRH_PASSWORD" ]; then echo "ERROR: OSSRH_PASSWORD is empty"; exit 1; fi
+          echo "Username length: ${#OSSRH_USERNAME}"
+
           echo "$SIGNING_KEY" | base64 -d > signing-key.gpg
           ./gradlew publish \
             -Psigning.keyId="$SIGNING_KEY_ID" \
             -Psigning.password="$SIGNING_PASSWORD" \
             -Psigning.secretKeyRingFile="$(pwd)/signing-key.gpg" \
-            --info
+            -PossrhUsername="$OSSRH_USERNAME" \
+            -PossrhPassword="$OSSRH_PASSWORD"
           rm signing-key.gpg
 
       - name: Create and push tag
