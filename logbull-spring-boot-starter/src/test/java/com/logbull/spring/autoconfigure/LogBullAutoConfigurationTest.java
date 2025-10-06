@@ -82,4 +82,98 @@ class LogBullAutoConfigurationTest {
                     assertThat(config.getLogLevel()).isEqualTo(LogLevel.INFO);
                 });
     }
+
+    @Test
+    void applicationFailsToStartWhenProjectIdIsMissing() {
+        contextRunner
+                .withPropertyValues(
+                        "logbull.enabled=true",
+                        "logbull.host=http://localhost:4005")
+                .run(context -> {
+                    assertThat(context).hasFailed();
+                    assertThat(context.getStartupFailure())
+                            .hasMessageContaining("logbull.project-id")
+                            .hasMessageContaining("required");
+                });
+    }
+
+    @Test
+    void applicationFailsToStartWhenHostIsMissing() {
+        contextRunner
+                .withPropertyValues(
+                        "logbull.enabled=true",
+                        "logbull.project-id=12345678-1234-1234-1234-123456789012")
+                .run(context -> {
+                    assertThat(context).hasFailed();
+                    assertThat(context.getStartupFailure())
+                            .hasMessageContaining("logbull.host")
+                            .hasMessageContaining("required");
+                });
+    }
+
+    @Test
+    void applicationFailsToStartWhenBothProjectIdAndHostAreMissing() {
+        contextRunner
+                .withPropertyValues("logbull.enabled=true")
+                .run(context -> {
+                    assertThat(context).hasFailed();
+                    assertThat(context.getStartupFailure())
+                            .hasMessageContaining("required");
+                });
+    }
+
+    @Test
+    void applicationFailsToStartWhenProjectIdIsEmpty() {
+        contextRunner
+                .withPropertyValues(
+                        "logbull.enabled=true",
+                        "logbull.project-id=",
+                        "logbull.host=http://localhost:4005")
+                .run(context -> {
+                    assertThat(context).hasFailed();
+                    assertThat(context.getStartupFailure())
+                            .hasMessageContaining("logbull.project-id")
+                            .hasMessageContaining("required");
+                });
+    }
+
+    @Test
+    void applicationFailsToStartWhenHostIsEmpty() {
+        contextRunner
+                .withPropertyValues(
+                        "logbull.enabled=true",
+                        "logbull.project-id=12345678-1234-1234-1234-123456789012",
+                        "logbull.host=")
+                .run(context -> {
+                    assertThat(context).hasFailed();
+                    assertThat(context.getStartupFailure())
+                            .hasMessageContaining("logbull.host")
+                            .hasMessageContaining("required");
+                });
+    }
+
+    @Test
+    void applicationFailsToStartWhenProjectIdIsBlank() {
+        contextRunner
+                .withPropertyValues(
+                        "logbull.enabled=true",
+                        "logbull.project-id=   ",
+                        "logbull.host=http://localhost:4005")
+                .run(context -> {
+                    assertThat(context).hasFailed();
+                    assertThat(context.getStartupFailure())
+                            .hasMessageContaining("logbull.project-id")
+                            .hasMessageContaining("required");
+                });
+    }
+
+    @Test
+    void applicationStartsWhenDisabledEvenWithMissingProperties() {
+        contextRunner
+                .withPropertyValues("logbull.enabled=false")
+                .run(context -> {
+                    assertThat(context).hasNotFailed();
+                    assertThat(context).doesNotHaveBean(Config.class);
+                });
+    }
 }

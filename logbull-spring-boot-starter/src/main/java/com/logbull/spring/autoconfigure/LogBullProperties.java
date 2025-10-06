@@ -2,11 +2,15 @@ package com.logbull.spring.autoconfigure;
 
 import com.logbull.core.LogLevel;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
+
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * Configuration properties for LogBull Spring Boot integration.
  */
 @ConfigurationProperties(prefix = "logbull")
+@Validated
 public class LogBullProperties {
 
     /**
@@ -17,11 +21,13 @@ public class LogBullProperties {
     /**
      * LogBull project ID (UUID format).
      */
+    @NotBlank(message = "LogBull project-id is required. Please set 'logbull.project-id' in your application properties.")
     private String projectId;
 
     /**
      * LogBull server host URL.
      */
+    @NotBlank(message = "LogBull host is required. Please set 'logbull.host' in your application properties.")
     private String host;
 
     /**

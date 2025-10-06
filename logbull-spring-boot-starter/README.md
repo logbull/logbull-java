@@ -31,8 +31,8 @@ Add to your `application.yml`:
 ```yaml
 logbull:
   enabled: true
-  project-id: 12345678-1234-1234-1234-123456789012
-  host: http://localhost:4005
+  project-id: 12345678-1234-1234-1234-123456789012 # required
+  host: http://localhost:4005 # required
   api-key: your-api-key
   log-level: INFO
 ```
@@ -41,8 +41,8 @@ Or `application.properties`:
 
 ```properties
 logbull.enabled=true
-logbull.project-id=12345678-1234-1234-1234-123456789012
-logbull.host=http://localhost:4005
+logbull.project-id=12345678-1234-1234-1234-123456789012 # required
+logbull.host=http://localhost:4005                      # required
 logbull.api-key=your-api-key
 logbull.log-level=INFO
 ```

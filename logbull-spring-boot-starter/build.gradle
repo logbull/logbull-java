@@ -12,6 +12,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-autoconfigure:3.2.0'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:3.2.0'
 
+    // Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation:3.2.0'
+
     // Optional: SLF4J/Logback (usually provided by Spring Boot)
     compileOnly 'org.slf4j:slf4j-api:2.0.9'
     compileOnly 'ch.qos.logback:logback-classic:1.4.11'
