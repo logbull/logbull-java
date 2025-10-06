@@ -1,12 +1,13 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
+    // New Maven Central Publishing plugin for publishing to central.sonatype.com
     id 'com.gradleup.nmcp' version '0.0.8' apply false
 }
 
 allprojects {
     group = 'com.logbull'
-    version = '1.0.0'
+    version = '1.0.0' // Version is automatically updated by CI/CD during release
 
     repositories {
         mavenCentral()

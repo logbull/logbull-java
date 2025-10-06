@@ -145,12 +145,10 @@ jobs:
 
       - name: Create GitHub Release
         if: steps.version.outputs.bump != 'none'
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.new_version.outputs.version }}
-          release_name: Release ${{ steps.new_version.outputs.version }}
+          name: Release ${{ steps.new_version.outputs.version }}
           draft: false
           prerelease: false
           body: |
