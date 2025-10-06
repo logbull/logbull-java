@@ -1,7 +1,7 @@
 # LogBull Java
 
 <div align="center">
-<img src="../go/assets/logo.svg" style="margin-bottom: 20px;" alt="Log Bull Logo" width="250"/>
+<img src="./assets/logo.svg" style="margin-bottom: 20px;" alt="Log Bull Logo" width="250"/>
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Java](https://img.shields.io/badge/Java-17+-blue.svg)](https://www.oracle.com/java/)
@@ -51,10 +51,33 @@ A Java library for sending logs to [Log Bull](https://github.com/logbull/logbull
 </dependency>
 ```
 
+### Maven + Spring Boot
+
+```xml
+<dependency>
+    <groupId>com.logbull</groupId>
+    <artifactId>logbull</artifactId>
+    <version>RELEASE</version>
+</dependency>
+
+<dependency>
+    <groupId>com.logbull</groupId>
+    <artifactId>logbull-spring-boot-starter</artifactId>
+    <version>RELEASE</version>
+</dependency>
+```
+
 ### Gradle
 
 ```groovy
 implementation 'com.logbull:logbull:+'
+```
+
+### Gradle + Spring Boot
+
+```groovy
+implementation 'com.logbull:logbull:+'
+implementation 'com.logbull:logbull-spring-boot-starter:+'
 ```
 
 ## Quick Start
@@ -215,6 +238,12 @@ The easiest way to use LogBull with Spring Boot is via the auto-configuration st
 ```xml
 <dependency>
     <groupId>com.logbull</groupId>
+    <artifactId>logbull</artifactId>
+    <version>RELEASE</version>
+</dependency>
+
+<dependency>
+    <groupId>com.logbull</groupId>
     <artifactId>logbull-spring-boot-starter</artifactId>
     <version>RELEASE</version>
 </dependency>
@@ -223,6 +252,7 @@ The easiest way to use LogBull with Spring Boot is via the auto-configuration st
 #### Gradle
 
 ```groovy
+implementation 'com.logbull:logbull:+'
 implementation 'com.logbull:logbull-spring-boot-starter:+'
 ```
 
@@ -232,7 +262,7 @@ implementation 'com.logbull:logbull-spring-boot-starter:+'
 logbull:
   enabled: true
   project-id: 12345678-1234-1234-1234-123456789012 # required
-  host: http://localhost:4005                      # required
+  host: http://localhost:4005 # required
   api-key: your-api-key
   log-level: INFO
 ```
