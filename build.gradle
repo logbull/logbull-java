@@ -15,9 +15,7 @@ allprojects {
 subprojects {
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
-    if (project.hasProperty("signing.keyId")) {
-        apply plugin: 'signing'
-    }
+    apply plugin: 'signing'
 
     java {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -49,12 +47,13 @@ subprojects {
         }
     }
 
-    if (project.hasProperty("signing.keyId")) {
+    signing {
+        // Only require signing when publishing and when signing properties are available
+        required { gradle.taskGraph.hasTask("publish") && project.hasProperty("signing.keyId") }
+        
+        // Sign the publications after they are evaluated
         afterEvaluate {
-            signing {
-                required { gradle.taskGraph.hasTask("publish") }
-                sign publishing.publications
-            }
+            sign publishing.publications
         }
     }
 }
