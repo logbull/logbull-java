@@ -1,0 +1,53 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+dependencies {
+    // Core LogBull library
+    api project(':logbull')
+
+    // Spring Boot dependencies
+    implementation 'org.springframework.boot:spring-boot-starter:3.2.0'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure:3.2.0'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:3.2.0'
+
+    // Optional: SLF4J/Logback (usually provided by Spring Boot)
+    compileOnly 'org.slf4j:slf4j-api:2.0.9'
+    compileOnly 'ch.qos.logback:logback-classic:1.4.11'
+
+    // Test dependencies
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.2.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            pom {
+                name = 'LogBull Spring Boot Starter'
+                description = 'Spring Boot auto-configuration for LogBull log collection system'
+                url = 'https://logbull.com'
+
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        name = 'LogBull Team'
+                    }
+                }
+
+                scm {
+                    url = 'https://github.com/logbull/logbull'
+                }
+            }
+        }
+    }
+}

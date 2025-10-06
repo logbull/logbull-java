@@ -1,0 +1,51 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+dependencies {
+    // Core dependencies
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.3'
+
+    // Optional dependencies for SLF4J/Logback integration
+    compileOnly 'org.slf4j:slf4j-api:2.0.9'
+    compileOnly 'ch.qos.logback:logback-classic:1.4.11'
+
+    // Test dependencies
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testImplementation 'org.mockito:mockito-core:5.5.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.5.0'
+    testImplementation 'org.slf4j:slf4j-api:2.0.9'
+    testImplementation 'ch.qos.logback:logback-classic:1.4.11'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            pom {
+                name = 'LogBull Java'
+                description = 'Java client library for LogBull log collection system with support for SLF4J/Logback'
+                url = 'https://logbull.com'
+
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        name = 'LogBull Team'
+                    }
+                }
+
+                scm {
+                    url = 'https://github.com/logbull/logbull'
+                }
+            }
+        }
+    }
+}
