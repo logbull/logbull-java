@@ -92,6 +92,23 @@ jobs:
         if: steps.version.outputs.bump != 'none'
         run: ./gradlew build
 
+      - name: Upload GPG Public Key to Keyserver
+        if: steps.version.outputs.bump != 'none'
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+        run: |
+          echo "Importing GPG key..."
+          echo "$SIGNING_KEY" | base64 -d | gpg --batch --import
+
+          echo "Uploading public key to keyservers..."
+          gpg --keyserver keys.openpgp.org --send-keys "$SIGNING_KEY_ID" || echo "Failed to upload to keys.openpgp.org"
+          gpg --keyserver keyserver.ubuntu.com --send-keys "$SIGNING_KEY_ID" || echo "Failed to upload to keyserver.ubuntu.com"
+          gpg --keyserver pgp.mit.edu --send-keys "$SIGNING_KEY_ID" || echo "Failed to upload to pgp.mit.edu"
+
+          echo "Waiting for key propagation (30 seconds)..."
+          sleep 30
+
       - name: Publish to Maven Central
         if: steps.version.outputs.bump != 'none'
         env:
