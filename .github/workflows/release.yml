@@ -98,34 +98,22 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
         run: |
           echo "Verifying credentials are set..."
-          if [ -z "$OSSRH_USERNAME" ]; then echo "ERROR: OSSRH_USERNAME is empty"; exit 1; fi
-          if [ -z "$OSSRH_PASSWORD" ]; then echo "ERROR: OSSRH_PASSWORD is empty"; exit 1; fi
-          echo "Username: ${OSSRH_USERNAME:0:3}***"
-          echo "Password length: ${#OSSRH_PASSWORD}"
-
-          # Test credentials before publishing
-          echo "Testing OSSRH credentials..."
-          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -u "$OSSRH_USERNAME:$OSSRH_PASSWORD" \
-            "https://s01.oss.sonatype.org/service/local/authentication/login")
-          echo "Auth test HTTP code: $HTTP_CODE"
-          if [ "$HTTP_CODE" != "200" ]; then
-            echo "ERROR: OSSRH credentials are invalid (HTTP $HTTP_CODE)"
-            echo "Please verify your user token is correct and not expired"
-            exit 1
-          fi
-          echo "✓ Credentials verified successfully"
+          if [ -z "$MAVEN_CENTRAL_USERNAME" ]; then echo "ERROR: MAVEN_CENTRAL_USERNAME is empty"; exit 1; fi
+          if [ -z "$MAVEN_CENTRAL_PASSWORD" ]; then echo "ERROR: MAVEN_CENTRAL_PASSWORD is empty"; exit 1; fi
+          echo "Username: ${MAVEN_CENTRAL_USERNAME:0:3}***"
+          echo "Password length: ${#MAVEN_CENTRAL_PASSWORD}"
 
           echo "$SIGNING_KEY" | base64 -d > signing-key.gpg
-          ./gradlew publish \
+          ./gradlew publishAllPublicationsToMavenCentral \
             -Psigning.keyId="$SIGNING_KEY_ID" \
             -Psigning.password="$SIGNING_PASSWORD" \
             -Psigning.secretKeyRingFile="$(pwd)/signing-key.gpg" \
-            -PossrhUsername="$OSSRH_USERNAME" \
-            -PossrhPassword="$OSSRH_PASSWORD"
+            -PmavenCentralUsername="$MAVEN_CENTRAL_USERNAME" \
+            -PmavenCentralPassword="$MAVEN_CENTRAL_PASSWORD"
           rm signing-key.gpg
 
       - name: Create and push tag
