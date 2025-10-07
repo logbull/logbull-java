@@ -93,9 +93,9 @@ import java.util.Map;
 public class Application {
     public static void main(String[] args) {
         LogBullLogger logger = LogBullLogger.builder()
-            .projectId("12345678-1234-1234-1234-123456789012")
-            .host("http://localhost:4005")
-            .apiKey("your-api-key")  // optional
+            .host("http://LOGBULL_HOST")
+            .projectId("LOGBULL_PROJECT_ID")
+            .apiKey("YOUR_API_KEY")  // optional
             .logLevel(LogLevel.INFO)
             .build();
 
@@ -128,9 +128,9 @@ public class BasicExample {
     public static void main(String[] args) {
         // Create logger with builder pattern
         LogBullLogger logger = LogBullLogger.builder()
-                .projectId("12345678-1234-1234-1234-123456789012")
-                .host("http://localhost:4005")
-                .apiKey("your-api-key") // optional
+                .host("http://LOGBULL_HOST")
+                .projectId("LOGBULL_PROJECT_ID")
+                .apiKey("YOUR_API_KEY") // optional
                 .logLevel(LogLevel.INFO)
                 .build();
 
@@ -186,8 +186,8 @@ import java.util.Map;
 public class ContextExample {
     public static void main(String[] args) {
         LogBullLogger logger = LogBullLogger.builder()
-            .projectId("YOUR_PROJECT_ID")
-            .host("http://YOUR_LOGBULL_SERVER:4005")
+            .host("http://LOGBULL_HOST")
+            .projectId("LOGBULL_PROJECT_ID")
             .build();
 
         try {
@@ -261,9 +261,9 @@ implementation 'com.logbull:logbull-spring-boot-starter:+'
 ```yaml
 logbull:
   enabled: true
-  project-id: 12345678-1234-1234-1234-123456789012 # required
-  host: http://localhost:4005 # required
-  api-key: your-api-key
+  project-id: LOGBULL_PROJECT_ID # required
+  host: http://LOGBULL_HOST # required
+  api-key: YOUR_API_KEY
   log-level: INFO
 ```
 
@@ -271,9 +271,9 @@ logbull:
 
 ```properties
 logbull.enabled=true
-logbull.project-id=12345678-1234-1234-1234-123456789012
-logbull.host=http://localhost:4005
-logbull.api-key=your-api-key
+logbull.project-id=LOGBULL_PROJECT_ID
+logbull.host=http://LOGBULL_HOST
+logbull.api-key=YOUR_API_KEY
 logbull.log-level=INFO
 ```
 
@@ -343,9 +343,9 @@ Place this file in your classpath (e.g., `src/main/resources/logback.xml`):
 
     <!-- LogBull appender for sending logs to LogBull server -->
     <appender name="LOGBULL" class="com.logbull.slf4j.LogBullLogbackAppender">
-        <projectId>12345678-1234-1234-1234-123456789012</projectId>
-        <host>http://localhost:4005</host>
-        <apiKey>your-api-key</apiKey>
+        <projectId>LOGBULL_PROJECT_ID</projectId>
+        <host>http://LOGBULL_HOST</host>
+        <apiKey>YOUR_API_KEY</apiKey>
         <logLevel>INFO</logLevel>
     </appender>
 
@@ -461,9 +461,9 @@ For non-Spring Boot projects or when you need more control, you can configure Lo
 
 ```java
 LogBullLogger logger = LogBullLogger.builder()
-    .projectId("12345678-1234-1234-1234-123456789012")
-    .host("http://localhost:4005")
-    .apiKey("your-api-key")
+    .host("http://LOGBULL_HOST")
+    .projectId("LOGBULL_PROJECT_ID")
+    .apiKey("YOUR_API_KEY")
     .logLevel(LogLevel.INFO)
     .build();
 ```
